@@ -1,0 +1,1 @@
+The front end of the website is going to be in React. Coming soon!
