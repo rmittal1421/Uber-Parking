@@ -3,7 +3,7 @@ const server = express()
 const request = require('request')
 const path = require('path')
 
-express.use((req, res, next) => {
+server.use((req, res, next) => {
     res.send('The website is under construction')
     next()
 })
