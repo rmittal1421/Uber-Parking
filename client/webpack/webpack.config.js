@@ -19,6 +19,7 @@ const main = {
     },
     devServer: {
         contentBase: './build',
+        historyApiFallback: true,
         port: 3000
     }
 }
