@@ -72,6 +72,7 @@ const userSchema = new mongoose.Schema({
         }
     },
     age: {
+        //optional
         type: Number,
         default: 0,
         validate(value) {

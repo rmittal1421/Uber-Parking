@@ -18,4 +18,33 @@ router.post('/signup', async (req, res) => {
     }
 })
 
+// router.get('/login', (req, res) => {
+//     res.send('Req for login')
+// })
+
+router.post('/users/login', async (req, res) => {
+    const email = req.body.email
+    const password = req.body.password
+
+    try {
+        const user = await User.findOne({
+            email
+        })
+        console.log(user)
+        if (!user) {
+            throw new Error('Invalid operetion at user')
+        }
+        console.log(user.password)
+        console.log(password)
+
+        if (user.password != password) {
+            throw new Error('Invalid operation at password')
+        }
+        res.status(200).send(user)
+    } catch (e) {
+        console.log(e)
+        res.status(400).send(e)
+    }
+})
+
 module.exports = router
