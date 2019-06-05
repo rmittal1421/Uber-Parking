@@ -3,7 +3,7 @@ require('../db/mongoose')
 const validator = require('validator')
 var passwordValidator = require('password-validator')
 
-var passwordScan = new passwordValidator();
+var passwordScan = new passwordValidator()
 passwordScan
     .is().min(8)
     .is().max(100)
@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        unique: true,
+        // unique: true, Will make it unique after development is done
         required: true,
         trim: true,
         lowercase: true,
@@ -94,6 +94,22 @@ const userSchema = new mongoose.Schema({
 }, {
     timestamps: true
 })
+
+userSchema.statics.checkCredentials = async (email, _password) => {
+    const user = await User.findOne({
+        email
+    })
+
+    if (!user) {
+        throw new Error('Invalid operation')
+    }
+
+    if (user.password !== _password) {
+        throw new Error('Invalid operation')
+    }
+
+    return user
+}
 
 const User = mongoose.model('User', userSchema)
 
