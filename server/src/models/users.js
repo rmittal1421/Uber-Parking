@@ -2,6 +2,8 @@ const mongoose = require('mongoose')
 require('../db/mongoose')
 const validator = require('validator')
 var passwordValidator = require('password-validator')
+const bcrypt = require('bcrypt')
+const saltRounds = 8
 
 var passwordScan = new passwordValidator()
 passwordScan
@@ -95,7 +97,7 @@ const userSchema = new mongoose.Schema({
     timestamps: true
 })
 
-userSchema.statics.checkCredentials = async (email, _password) => {
+userSchema.statics.checkCredentials = async (email, password) => {
     const user = await User.findOne({
         email
     })
@@ -104,12 +106,25 @@ userSchema.statics.checkCredentials = async (email, _password) => {
         throw new Error('Invalid operation')
     }
 
-    if (user.password !== _password) {
+    const validPassword = await bcrypt.compare(password, user.password)
+    if (!validPassword) {
         throw new Error('Invalid operation')
     }
 
     return user
 }
+
+userSchema.pre('save', async function (next) {
+    const user = this
+
+    if (user.isModified('password')) {
+        //Encrypt the password (if changed) before saving the user each time
+        const encryptedPassword = await bcrypt.hash(user.password, saltRounds)
+        user.password = encryptedPassword
+    }
+
+    next()
+})
 
 const User = mongoose.model('User', userSchema)
 
