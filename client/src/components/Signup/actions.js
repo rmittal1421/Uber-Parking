@@ -10,7 +10,7 @@ export const registrationSuccessful = (payload) => {
     }
 }
 
-export const registrationFailed = (paylaod) => {
+export const registrationFailed = (payload) => {
     return {
         type: USER_REGISTRATION_FAILED,
         payload
@@ -20,19 +20,8 @@ export const registrationFailed = (paylaod) => {
 // thunk
 export const registerUser = (payload) => {
     return (dispatch) => {
-        return axios.get('http://localhost:3000/signup')
-            .then(user => dispatch(registrationSuccssful(user)))
-            .catch(error => dispatch(registrationFailed(err)))
+        return axios.post('http://localhost:3000/signup', payload)
+            .then(user => dispatch(registrationSuccessful(user)))
+            .catch(error => dispatch(registrationFailed(error)))
     }
-
-
-    // return async (dispatch) => {
-    //     try {
-    //         const user = await axios.get('http://localhost:3000/signup')
-    //         dispatch(registrationSuccssful(user))
-    //     }
-    //     catch(err) {
-    //         dispatch(registrationFailed(err))
-    //     }
-    // }
 }

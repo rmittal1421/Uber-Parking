@@ -68,10 +68,18 @@ class Signup extends Component {
     }
 }
 
+function mapStateToProps(state) {
+    console.log('state')
+    console.log(state)
+    return {
+        something: 'something'
+    }
+}
+
 function mapDispatchToProps(dispatch) {
     return {
         registerUser: (payload) => dispatch(registerUser(payload))
     }
 }
 
-export default connect(null, mapDispatchToProps)(Signup)
+export default connect(mapStateToProps, mapDispatchToProps)(Signup)
