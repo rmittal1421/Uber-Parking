@@ -1,7 +1,6 @@
-const initialState = {}
+import {combineReducers} from 'redux'
+import {componentsReducer} from '../../components/reducer'
 
-function reducer(state=initialState, action) {
-    
-}
-
-module.exports = reducer
+export const rootReducer = combineReducers({
+    componentsState: componentsReducer
+})

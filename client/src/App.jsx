@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
-import {createStore} from 'redux'
+import {createStore, compose, applyMiddleware} from 'redux'
+import thunk from 'redux-thunk'
 import {Provider} from 'react-redux'
-import reducer from './redux/reducers'
+import {rootReducer} from './redux/reducers'
 import Router from './Router'
 
 class App extends Component {
@@ -10,7 +11,7 @@ class App extends Component {
     }
 
     render() {
-        const store = createStore(reducer)
+        const store = createStore(rootReducer, compose(applyMiddleware(thunk)))
         return (
             <Provider store={store}>
                 <Router />
