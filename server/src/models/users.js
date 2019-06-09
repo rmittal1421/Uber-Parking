@@ -103,12 +103,12 @@ userSchema.statics.checkCredentials = async (email, password) => {
     })
 
     if (!user) {
-        throw new Error('Invalid operation')
+        throw new Error('Invalid credentials')
     }
 
     const validPassword = await bcrypt.compare(password, user.password)
     if (!validPassword) {
-        throw new Error('Invalid operation')
+        throw new Error('Invalid credentials')
     }
 
     return user
@@ -118,7 +118,7 @@ userSchema.pre('save', async function (next) {
     const user = this
 
     if (user.isModified('password')) {
-        //Encrypt the password (if changed) before saving the user each time
+        //Encrypt the password (if changed/saved for the first time) before saving the user each time
         const encryptedPassword = await bcrypt.hash(user.password, saltRounds)
         user.password = encryptedPassword
     }

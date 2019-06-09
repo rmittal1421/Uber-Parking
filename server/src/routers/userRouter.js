@@ -1,5 +1,4 @@
-const express = require("express");
-const path = require("path");
+const express = require('express');
 const router = new express.Router()
 
 const User = require("../models/users")
@@ -18,11 +17,14 @@ router.post("/user/signup", async (req, res) => {
 
 router.post("/user/login", async (req, res) => {
     try {
-        console.log(req.body)
         const user = await User.checkCredentials(req.body.email, req.body.password)
-        res.send(user)
-    } catch (e) {
-        res.status(400).send(e)
+        res.send({
+            user
+        })
+    } catch (error) {
+        res.status(400).send({
+            error
+        })
     }
 });
 
