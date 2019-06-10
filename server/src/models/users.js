@@ -42,7 +42,7 @@ const userSchema = new mongoose.Schema({
                 list: true
             })
             if (errList.length != 0) {
-                let output = "Password must "
+                let output = 'Password must '
                 for (const error of errList) {
                     switch (error) {
                         case 'min':
