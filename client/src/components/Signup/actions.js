@@ -21,7 +21,7 @@ export const registrationFailed = (payload) => {
 export const registerUser = (payload) => {
     return (dispatch) => {
         return axios.post('http://localhost:3000/signup', payload)
-            .then(user => dispatch(registrationSuccessful(user)))
-            .catch(error => dispatch(registrationFailed(error)))
+            .then(res => dispatch(registrationSuccessful(res.response.data.message)))
+            .catch(res => dispatch(registrationFailed(res.response.data.message)))
     }
 }
