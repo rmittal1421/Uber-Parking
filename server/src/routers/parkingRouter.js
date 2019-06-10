@@ -1,7 +1,8 @@
 const express = require('express');
 const router = new express.Router()
 
-const ParkingAd = require("../models/parking")
+const User = require('./userRouter')
+const ParkingAd = require('../models/parking')
 
 /*
 required routes:
@@ -24,6 +25,22 @@ router.post('/parking/newAd', async (req, res) => {
         const ad = await newAd.save()
         res.status(201).send({
             ad
+        })
+    } catch (error) {
+        res.status(400).send({
+            error
+        })
+    }
+})
+
+router.get('/myads', async (req, res) => {
+    try {
+        console.log(req.body)
+        const user = await User.findOne({
+            _id: req.body.user._id
+        })
+        res.status(200).send({
+            user
         })
     } catch (error) {
         res.status(400).send({

@@ -13,7 +13,7 @@ passwordScan
     .has().lowercase()
     .has().digits()
     .has().not().spaces()
-    .is().not().oneOf(['Passw0rd', 'Password123', 'password']);
+    .is().not().oneOf(['Passw0rd', 'Password123', 'password'])
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -42,7 +42,7 @@ const userSchema = new mongoose.Schema({
                 list: true
             })
             if (errList.length != 0) {
-                let output = "Password must "
+                let output = 'Password must '
                 for (const error of errList) {
                     switch (error) {
                         case 'min':
