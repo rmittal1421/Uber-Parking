@@ -13,7 +13,7 @@ passwordScan
     .has().lowercase()
     .has().digits()
     .has().not().spaces()
-    .is().not().oneOf(['Passw0rd', 'Password123', 'password']);
+    .is().not().oneOf(['Passw0rd', 'Password123', 'password'])
 
 const userSchema = new mongoose.Schema({
     name: {

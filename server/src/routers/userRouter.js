@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require('express')
 const router = new express.Router()
 
 const User = require('../models/users')
@@ -16,7 +16,7 @@ router.post('/users/signup', async (req, res) => {
             error
         })
     }
-});
+})
 
 router.post('/users/login', async (req, res) => {
     try {
@@ -32,6 +32,6 @@ router.post('/users/login', async (req, res) => {
             }
         })
     }
-});
+})
 
-module.exports = router;
+module.exports = router
