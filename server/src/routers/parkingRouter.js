@@ -2,6 +2,7 @@ const express = require('express');
 const router = new express.Router()
 
 const ParkingAd = require('../models/parking')
+const validateUpdate = require('../middlewares/parkingHandlers')
 
 /*
 required routes:
@@ -112,10 +113,38 @@ router.delete('/parking/myads/:_id/:userId', async (req, res) => {
 
 /**
  * Endpoint to edit a particular ad posted by a particular user
+ * //TODO: When the user updates the location of an ad and when we have the coordinates model setup,
+ * we need to update the corresponding coordinates in the database using save middleware
  */
-router.patch('/parking/myads/:_id/:userId', async (req, res) => {
-    const updatesRequested = Object.keys(req.body)
-    const allowedUpdates = ['description', 'location', 'numberOfDays', 'price']
-})
+router.patch('/parking/myads/:_id/:userId', validateUpdate, async (req, res, next) => {
+    try {
+        const ad = await ParkingAd.findOne({
+            _id: req.params._id,
+            owner: req.params.userId
+        })
+
+        if (!ad) {
+            next({
+                message: 'No data available',
+                status: 404
+            })
+        }
+        req.updatesRequested.forEach((update) => {
+            ad[update] = req.body[update]
+        })
+        await ad.save()
+        res.status(201).send({
+            ad
+        })
+    } catch (error) {
+        console.log(error)
+        next({
+            message: error.message,
+            status: 500
+        })
+    }
+}, ((error, req, res, next) => {
+    res.status(error.status).send(error)
+}))
 
 module.exports = router
