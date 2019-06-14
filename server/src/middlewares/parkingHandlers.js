@@ -1,3 +1,29 @@
+const mongoose = require('mongoose')
+
+/**
+ * Middleware to validate the ids sent by the user in the request
+ * This middleware check ids of the parking ad requested and the id of the user
+ */
+const validateIds = (req, res, next) => {
+    const {
+        _id,
+        userId
+    } = req.params
+    let message = ''
+    if (_id && !mongoose.Types.ObjectId.isValid(_id)) {
+        message = 'Object Id for the parking ad is invalid'
+    } else if (userId && !mongoose.Types.ObjectId.isValid(userId)) {
+        message = 'Object Id for the user is invalid'
+    } else {
+        return next()
+    }
+
+    next({
+        message,
+        status: 400
+    })
+}
+
 /**
  * Middleware to validate the keys to update as requested by the user
  * next() will let the next handler to run
@@ -20,4 +46,7 @@ const validateUpdate = (req, res, next) => {
     next()
 }
 
-module.exports = validateUpdate
+module.exports = {
+    validateIds,
+    validateUpdate
+}
