@@ -6,7 +6,6 @@ class Home extends Component {
     }
 
     render() {
-        console.log('here')
         return (
             <h1> This is the Home Component </h1>
         )

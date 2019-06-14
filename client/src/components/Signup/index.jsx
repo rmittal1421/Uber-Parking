@@ -68,9 +68,9 @@ class Signup extends Component {
     }
 }
 
+// TODO: This needs to be changed with the actual state (user information)
+// when the next workflow is decided.
 function mapStateToProps(state) {
-    console.log('state')
-    console.log(state)
     return {
         something: 'something'
     }
