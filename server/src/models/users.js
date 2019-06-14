@@ -2,8 +2,10 @@ const mongoose = require('mongoose')
 require('../db/mongoose')
 const validator = require('validator')
 var passwordValidator = require('password-validator')
+const bcrypt = require('bcrypt')
+const saltRounds = 8
 
-var passwordScan = new passwordValidator();
+var passwordScan = new passwordValidator()
 passwordScan
     .is().min(8)
     .is().max(100)
@@ -11,7 +13,7 @@ passwordScan
     .has().lowercase()
     .has().digits()
     .has().not().spaces()
-    .is().not().oneOf(['Passw0rd', 'Password123', 'password']);
+    .is().not().oneOf(['Passw0rd', 'Password123', 'password'])
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -21,7 +23,7 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        unique: true,
+        // unique: true, Will make it unique after development is done
         required: true,
         trim: true,
         lowercase: true,
@@ -40,7 +42,7 @@ const userSchema = new mongoose.Schema({
                 list: true
             })
             if (errList.length != 0) {
-                let output = "Password must "
+                let output = 'Password must '
                 for (const error of errList) {
                     switch (error) {
                         case 'min':
@@ -72,6 +74,7 @@ const userSchema = new mongoose.Schema({
         }
     },
     age: {
+        //optional
         type: Number,
         default: 0,
         validate(value) {
@@ -92,6 +95,35 @@ const userSchema = new mongoose.Schema({
     }
 }, {
     timestamps: true
+})
+
+userSchema.statics.checkCredentials = async (email, password) => {
+    const user = await User.findOne({
+        email
+    })
+
+    if (!user) {
+        throw new Error('Invalid credentials')
+    }
+
+    const validPassword = await bcrypt.compare(password, user.password)
+    if (!validPassword) {
+        throw new Error('Invalid credentials')
+    }
+
+    return user
+}
+
+userSchema.pre('save', async function (next) {
+    const user = this
+
+    if (user.isModified('password')) {
+        //Encrypt the password (if changed/saved for the first time) before saving the user each time
+        const encryptedPassword = await bcrypt.hash(user.password, saltRounds)
+        user.password = encryptedPassword
+    }
+
+    next()
 })
 
 const User = mongoose.model('User', userSchema)
