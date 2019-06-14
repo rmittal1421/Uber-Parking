@@ -23,9 +23,6 @@ export const registerUser = (payload) => {
     return (dispatch) => {
         return axios.post(CONSTANTS.API_ENDPOINTS.SIGN_UP, payload)
             .then(res => dispatch(registrationSuccessful(res.data.user)))
-            .catch(error =>{
-                console.log(error.response)
-                dispatch(registrationFailed(error.response.data.message))    
-            })
+            .catch(error => dispatch(registrationFailed(error.response.data.message)))
     }
 }
