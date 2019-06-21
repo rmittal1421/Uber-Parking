@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require('express')
 const router = new express.Router()
 
 const ParkingAd = require('../models/parking')
@@ -39,9 +39,7 @@ router.post('/parking/newAd/:userId', validateIds, async (req, res, next) => {
             status: 400
         })
     }
-}, ((error, req, res, next) => {
-    res.status(error.status).json(error)
-}))
+})
 
 /**
  * Endpoint to get all the parking ads in the database
@@ -58,9 +56,7 @@ router.get('/parking/ads', async (req, res, next) => {
             status: 400
         })
     }
-}, ((error, req, res, next) => {
-    res.status(error.status).json(error)
-}))
+})
 
 router.get('/parking/myads/:userId', validateIds, async (req, res, next) => {
     try {
@@ -76,9 +72,7 @@ router.get('/parking/myads/:userId', validateIds, async (req, res, next) => {
             status: 400
         })
     }
-}, ((error, req, res, next) => {
-    res.status(error.status).json(error)
-}))
+})
 
 /**
  * Endpoint to get a particular ad by its id of a particular user
@@ -101,9 +95,7 @@ router.get('/parking/myads/:_id/:userId', validateIds, async (req, res, next) =>
             status: 400
         })
     }
-}, ((error, req, res, next) => {
-    res.status(error.status).json(error)
-}))
+})
 
 /**
  * Endpoint to delete a particular ad (by id) for a particular user
@@ -125,9 +117,7 @@ router.delete('/parking/myads/:_id/:userId', validateIds, async (req, res, next)
             status: 500
         })
     }
-}, ((error, req, res, next) => {
-    res.status(error.status).json(error)
-}))
+})
 
 /**
  * Endpoint to edit a particular ad posted by a particular user
@@ -161,8 +151,6 @@ router.patch('/parking/myads/:_id/:userId', validateIds, validateUpdate, async (
             status: 500
         })
     }
-}, ((error, req, res, next) => {
-    res.status(error.status).json(error)
-}))
+})
 
 module.exports = router

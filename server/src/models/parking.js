@@ -25,7 +25,9 @@ const parkingSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    images: {
+    gallery: {
+        //Will be implemented later
+        //not required
         type: Buffer
     }
 }, {

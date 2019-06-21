@@ -1,10 +1,16 @@
 const express = require('express')
 const server = express()
 
+const PORT = process.env.PORT || 3000
+
 server.use(express.json())
 server.use(require('./routers/userRouter'))
 server.use(require('./routers/parkingRouter'))
 
-server.listen(3000, () => {
-    console.log('Listening of port 3000')
+server.listen(PORT, () => {
+    console.log(`Listening of port ${PORT}`)
+})
+
+server.use((error, req, res, next) => {
+    res.status(error.status).json(error);
 })
