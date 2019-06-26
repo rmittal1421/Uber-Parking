@@ -14,7 +14,6 @@ server.use(function (req, res, next) {
 
 server.use(require('./routers/userRouter'))
 
-
 server.listen(3000, () => {
     console.log('Listening of port 3000')
 })

@@ -1,20 +1,36 @@
 const express = require('express')
-const path = require('path')
 const router = new express.Router()
 
 const User = require('../models/users')
 
-router.post('/signup', async (req, res) => {
-    console.log('Creating a new account for a new user')
+router.post('/users/signup', async (req, res) => {
     const user = new User(req.body)
-    console.log(req.body)
     try {
         await user.save()
-        res.send(user)
         console.log('The user has been created')
-    } catch (e) {
-        res.status(400).send(e)
-        console.log(e)
+        res.send({
+            user
+        })
+    } catch (error) {
+        res.status(400).send({
+            message: error.message
+        })
+    }
+})
+
+router.post('/users/login', async (req, res) => {
+    try {
+        const user = await User.checkCredentials(req.body.email, req.body.password)
+        console.log('Login successful')
+        res.send({
+            user
+        })
+    } catch (error) {
+        res.status(400).send({
+            error: {
+                message: error.message
+            }
+        })
     }
 })
 
