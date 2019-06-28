@@ -97,6 +97,13 @@ const userSchema = new mongoose.Schema({
     timestamps: true
 })
 
+//Setting up foreign key to fetch the parking ads posted by this user
+userSchema.virtual('parkingads', {
+    ref: 'ParkingAd',
+    localField: '_id',
+    foreignField: 'owner'
+})
+
 userSchema.statics.checkCredentials = async (email, password) => {
     const user = await User.findOne({
         email
