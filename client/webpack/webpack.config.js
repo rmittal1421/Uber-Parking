@@ -1,5 +1,8 @@
+const Dotenv = require('dotenv-webpack');
+
 const main = {
     entry: './src/index.js',
+    target: 'node',
     module: {
         rules: [
             {
@@ -9,6 +12,9 @@ const main = {
             },
         ]
     },
+    plugins: [
+        new Dotenv()
+    ],
     resolve: {
         extensions: ['*', '.js', '.jsx']
     },
