@@ -2,6 +2,7 @@ const express = require('express')
 const router = new express.Router()
 
 const ParkingAd = require('../models/parking')
+const Coordinates = require('../models/coordinates')
 const {
     validateIds,
     validateUpdate
@@ -30,6 +31,16 @@ router.post('/parking/newAd/:userId', validateIds, async (req, res, next) => {
     })
     try {
         const ad = await newAd.save()
+        //Error handling required as in if anything is missing like longitude or latitude
+        await Coordinates.create({
+            parkingId: ad._id,
+            address: req.body.location,
+            location: {
+                type: 'Point',
+                coordinates: req.body.coordinates
+            }
+        })
+
         res.status(201).json({
             ad
         })
