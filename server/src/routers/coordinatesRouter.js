@@ -1,7 +1,6 @@
 const express = require('express')
 const router = new express.Router()
 
-const ParkingAd = require('../models/parking')
 const Coordinates = require('../models/coordinates')
 
 const coordinatesValidator = require('../middlewares/coordinatesHandlers')
