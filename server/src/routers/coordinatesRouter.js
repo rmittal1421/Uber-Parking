@@ -7,8 +7,10 @@ const coordinatesValidator = require('../middlewares/coordinatesHandlers')
 
 //The distance should be in meters from which we need to find the parking ads
 router.get('/search', coordinatesValidator, async (req, res, next) => {
-    const longitude = req.query.longitude
-    const latitude = req.query.latitude
+    const {
+        longitude,
+        latitude
+    } = req.query
 
     try {
         let parkingAds = await Coordinates.find({
