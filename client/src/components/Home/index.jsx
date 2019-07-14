@@ -15,7 +15,7 @@ class Home extends Component {
     componentWillReceiveProps(nextProps) {
         if(nextProps.currLocation.location) {
             const {latitude, longitude} = nextProps.currLocation.location
-            this.props.history.push(`/search?latitude=${latitude}&longitude=${longitude}`)
+            this.props.history.push(`/search?longitude=${longitude}&latitude=${latitude}`)
         }
     }
 

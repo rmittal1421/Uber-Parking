@@ -16,12 +16,12 @@ class DashBoard extends Component {
 
     render() {
         const hasLocation = this.props.location
-        const {latitude, longitude, location} = this.props.location
+        const {latitude, longitude, address} = this.props.location
         console.log(latitude, longitude)
         const hasLocationAttributes = latitude && longitude
         const displayLocation = (
             <div>
-                <h2> Name: {location} </h2>
+                <h2> Address: {address} </h2>
                 <h2> Latitude: {latitude} </h2>
                 <h2> Longitude: {longitude} </h2>
             </div>

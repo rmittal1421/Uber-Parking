@@ -14,7 +14,7 @@ export const getLocation = (address) => {
             return {
                 longitude: features[0].center[0],
                 latitude: features[0].center[1],
-                location: features[0].place_name
+                address: features[0].place_name
             }
         })
         .catch((error) => {throw new Error(error.message)})
