@@ -16,6 +16,7 @@ server.use(function (req, res, next) {
 
 server.use(require('./routers/userRouter'))
 server.use(require('./routers/parkingRouter'))
+server.use(require('./routers/coordinatesRouter'))
 
 server.listen(PORT, () => {
     console.log(`Listening of port ${PORT}`)
