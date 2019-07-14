@@ -3,6 +3,7 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import Home from './components/Home'
 import Login from './components/Login'
 import Signup from './components/Signup'
+import DashBoard from './components/DashBoard'
 
 class Router extends Component {
     constructor(props) {
@@ -13,9 +14,10 @@ class Router extends Component {
         return (
             <BrowserRouter>
                 <Switch>
-                    <Route path='/login' exact component={Login} />
                     <Route path='/' exact component={Home} />
+                    <Route path='/login' exact component={Login} />
                     <Route path='/signup' exact component={Signup} />
+                    <Route path='/search' exact component={DashBoard} />
                 </Switch>
             </BrowserRouter>
         )

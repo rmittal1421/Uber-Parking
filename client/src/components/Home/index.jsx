@@ -12,6 +12,13 @@ class Home extends Component {
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.currLocation.location) {
+            const {latitude, longitude} = nextProps.currLocation.location
+            this.props.history.push(`/search?longitude=${longitude}&latitude=${latitude}`)
+        }
+    }
+
     handleSubmit(e) {
         e.preventDefault()
         this.props.updateLocation(this.state.location)
