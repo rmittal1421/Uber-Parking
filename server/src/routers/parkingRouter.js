@@ -1,12 +1,30 @@
 const express = require('express')
 const router = new express.Router()
+const multer = require('multer')
+const sharp = require('sharp')
 
 const ParkingAd = require('../models/parking')
 const Coordinates = require('../models/coordinates')
+const Images = require('../models/images')
+
 const {
     validateIds,
     validateUpdate
 } = require('../middlewares/parkingHandlers')
+
+const upload = multer({
+    limits: {
+        fileSize: 3000000,
+        files: 4
+    },
+    fileFilter(req, file, cb) {
+        if (!file.originalname.match(/\.(png|jpg|jpeg)$/)) {
+            cb(new Error('Please upload only an image with extension of either png or jpg/jpeg'))
+        }
+        cb(undefined, true)
+    }
+
+})
 
 /*
 required routes:
@@ -24,7 +42,7 @@ required routes:
  * It requires a request to contain a send body with atleast the required field for a parking ad
  * TODO: Make a seperate validator to validate the req coming in to differentiate between server and client errors
  */
-router.post('/parking/newAd/:userId', validateIds, async (req, res, next) => {
+router.post('/parking/newAd/:userId', validateIds, upload.array('gallery'), async (req, res, next) => {
     const newAd = new ParkingAd({
         owner: req.params.userId,
         ...req.body,
@@ -40,6 +58,14 @@ router.post('/parking/newAd/:userId', validateIds, async (req, res, next) => {
                 coordinates: req.body.coordinates
             }
         })
+
+        // req.files.forEach(async (file) => {
+        //     console.log('coming here to save a new image for the parking ad')
+        //     await Images.create({
+        //         parkingAd: ad._id,
+        //         image: file.buffer
+        //     })
+        // })
 
         res.status(201).json({
             ad

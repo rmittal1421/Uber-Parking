@@ -34,6 +34,12 @@ const parkingSchema = new mongoose.Schema({
     timestamps: true
 })
 
+parkingSchema.virtual('images', {
+    ref: 'images',
+    localField: '_id',
+    foreignField: 'parkingAd'
+})
+
 parkingSchema.methods.toJSON = function () {
     const parkingAdObj = this.toObject()
 
