@@ -5,7 +5,7 @@ const sharp = require('sharp')
 
 const ParkingAd = require('../models/parking')
 const Coordinates = require('../models/coordinates')
-const Images = require('../models/images')
+const Image = require('../models/images')
 
 const {
     validateIds,
@@ -50,21 +50,39 @@ router.post('/parking/newAd/:userId', validateIds, upload.array('gallery'), asyn
     try {
         const ad = await newAd.save()
         //Error handling required as in if anything is missing like longitude or latitude
-        await Coordinates.create({
-            parkingId: ad._id,
-            address: req.body.location,
-            location: {
-                type: 'Point',
-                coordinates: req.body.coordinates
-            }
+        // await Coordinates.create({
+        //     parkingId: ad._id,
+        //     address: req.body.location,
+        //     location: {
+        //         type: 'Point',
+        //         coordinates: req.body.coordinates
+        //     }
+        // })
+
+        // console.log(req.files[0])
+        const newImage = new Image({
+            parkingAd: ad._id,
+            image: req.files[0]
         })
+        await newImage.save()
+
 
         // req.files.forEach(async (file) => {
         //     console.log('coming here to save a new image for the parking ad')
-        //     await Images.create({
-        //         parkingAd: ad._id,
-        //         image: file.buffer
-        //     })
+        //     try {
+        //         let newImage = new Image({
+        //             parkingAd: ad._id,
+        //             image: file
+        //         })
+        //         await newImage.save()
+        //     } catch (e) {
+        //         //handle the error
+        //     }
+
+        //     // let newImage = new Image({
+        //     //     parkingAd: ad._id,
+        //     //     image: file
+        //     // })
         // })
 
         res.status(201).json({
